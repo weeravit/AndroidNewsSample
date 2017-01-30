@@ -37,6 +37,7 @@ ext {
     retrofitVersion = '2.1.0'
     glideVersion = '3.7.0'
     icePickVersion = '3.2.0'
+    lastAdapterVersion = '2.0.0'
     junitVersion = '4.12'
     espressoVersion = '2.2.2'
 }

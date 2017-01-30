@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import me.weeravit.androidnewssample.news.NewsActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -13,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToNewsPage() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, NewsActivity.class);
         startActivity(intent);
         finish();
     }

@@ -3,18 +3,16 @@ package me.weeravit.androidnewssample.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
 
-import icepick.Icepick;
-import icepick.State;
 import me.weeravit.androidnewssample.R;
-import me.weeravit.androidnewssample.databinding.WidgetNewsBinding;
 
 /**
  * Created by weeravit on 1/29/2017 AD.
@@ -22,12 +20,11 @@ import me.weeravit.androidnewssample.databinding.WidgetNewsBinding;
 
 public class NewsView extends FrameLayout {
 
-    @State
     private String mTitle;
-    @State
-    private String mUrl;
-
-    private WidgetNewsBinding mBinding;
+    private String mImageUrl;
+    private CardView mCardView;
+    private AppCompatImageView mImageView;
+    private AppCompatTextView mTextTitle;
 
     public NewsView(Context context) {
         super(context);
@@ -51,28 +48,28 @@ public class NewsView extends FrameLayout {
     }
 
     private void init(AttributeSet attrs) {
+        inflate(getContext(), R.layout.widget_news, this);
+        initView();
         initStyleable(attrs);
-        initViews();
+    }
+
+    private void initView() {
+        mCardView = (CardView) findViewById(R.id.card_view);
+        mImageView = (AppCompatImageView) findViewById(R.id.image_view);
+        mTextTitle = (AppCompatTextView) findViewById(R.id.text_title);
     }
 
     private void initStyleable(AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.NewsView);
             mTitle = typedArray.getString(R.styleable.NewsView_title);
-            mUrl = typedArray.getString(R.styleable.NewsView_imageUrl);
+            mImageUrl = typedArray.getString(R.styleable.NewsView_imageUrl);
             typedArray.recycle();
         }
     }
 
-    private void initViews() {
-        mBinding = WidgetNewsBinding.inflate(LayoutInflater.from(getContext()));
-
-        setTitle(mTitle);
-        setUrl(mUrl);
-    }
-
     public void setOnNewsClickListener(OnClickListener listener) {
-        mBinding.cardView.setOnClickListener(listener);
+        mCardView.setOnClickListener(listener);
     }
 
     public String getTitle() {
@@ -81,29 +78,19 @@ public class NewsView extends FrameLayout {
 
     public void setTitle(String title) {
         mTitle = title;
-        mBinding.textTitle.setText(mTitle);
+        mTextTitle.setText(mTitle);
     }
 
-    public String getUrl() {
-        return mUrl;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
-    public void setUrl(String url) {
-        mUrl = url;
+    public void setImageUrl(String url) {
+        mImageUrl = url;
         Glide.with(getContext())
-                .load(mUrl)
+                .load(mImageUrl)
                 .centerCrop()
-                .into(mBinding.imageView);
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        return Icepick.saveInstanceState(this, super.onSaveInstanceState());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state));
+                .into(mImageView);
     }
 
 }
