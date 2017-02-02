@@ -1,4 +1,4 @@
-package me.weeravit.androidnewssample.news;
+package me.weeravit.androidnewssample.module.news;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,6 +13,7 @@ import me.weeravit.androidnewssample.manager.JsonManager;
 
 public class FakeNewsRepositoryImpl implements NewsRepository {
 
+    private Gson mGson;
     private String data = "[\n" +
             "  {\n" +
             "    \"title\": \"Android Development Best Practices\",\n" +
@@ -66,10 +67,13 @@ public class FakeNewsRepositoryImpl implements NewsRepository {
             "  }\n" +
             "]\n";
 
+    public FakeNewsRepositoryImpl(Gson gson) {
+        mGson = gson;
+    }
+
     @Override
     public void getNews(int page, final Callback callback) {
-        Gson gson = JsonManager.getInstance().getGson();
-        List<News> newsList = gson.fromJson(data, new TypeToken<List<News>>() {
+        List<News> newsList = mGson.fromJson(data, new TypeToken<List<News>>() {
         }.getType());
         callback.onSuccess(newsList);
     }

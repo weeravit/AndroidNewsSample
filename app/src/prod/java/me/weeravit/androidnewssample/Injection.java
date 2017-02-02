@@ -1,7 +1,7 @@
 package me.weeravit.androidnewssample;
 
-import me.weeravit.androidnewssample.news.NewsRepository;
-import me.weeravit.androidnewssample.news.NewsRepositoryImpl;
+import me.weeravit.androidnewssample.module.news.NewsRepository;
+import me.weeravit.androidnewssample.module.news.NewsRepositoryImpl;
 
 /**
  * Created by weeravit on 1/29/2017 AD.

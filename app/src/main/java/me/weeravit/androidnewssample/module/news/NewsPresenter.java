@@ -1,4 +1,4 @@
-package me.weeravit.androidnewssample.news;
+package me.weeravit.androidnewssample.module.news;
 
 import java.util.List;
 
@@ -33,6 +33,11 @@ public class NewsPresenter implements NewsContract.Presenter {
                 mView.showLoading(false);
             }
         });
+    }
+
+    @Override
+    public void openNews(News news) {
+        mView.showNews(news);
     }
 
 }

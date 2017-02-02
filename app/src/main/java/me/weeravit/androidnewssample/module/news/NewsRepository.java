@@ -1,4 +1,4 @@
-package me.weeravit.androidnewssample.news;
+package me.weeravit.androidnewssample.module.news;
 
 import java.util.List;
 

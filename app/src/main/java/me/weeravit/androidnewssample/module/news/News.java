@@ -1,4 +1,4 @@
-package me.weeravit.androidnewssample.news;
+package me.weeravit.androidnewssample.module.news;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class News {
 
+    @SerializedName("id")
+    private int id;
+
     @SerializedName("title")
     private String title;
 
@@ -16,6 +19,14 @@ public class News {
 
     @SerializedName("link")
     private String link;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

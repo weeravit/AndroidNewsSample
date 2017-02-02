@@ -1,4 +1,4 @@
-package me.weeravit.androidnewssample.news;
+package me.weeravit.androidnewssample.module.news;
 
 import java.util.List;
 
@@ -10,12 +10,14 @@ public interface NewsContract {
 
     interface View {
         void showLoading(boolean enable);
-        void showNewsList(List<News> newsList);
         void showError(String message);
+        void showNewsList(List<News> newsList);
+        void showNews(News news);
     }
 
     interface Presenter {
         void loadNews(int page);
+        void openNews(News news);
     }
 
 }

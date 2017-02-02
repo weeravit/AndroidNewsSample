@@ -53,8 +53,5 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
-    compile "frankiesardo:icepick:$rootProject.ext.icePickVersion"
-    provided "frankiesardo:icepick-processor:$rootProject.ext.icePickVersion"
-    compile "com.github.nitrico.lastadapter:lastadapter:$rootProject.ext.lastAdapterVersion"
     testCompile "junit:junit:$rootProject.ext.junitVersion"
 }

@@ -2,7 +2,7 @@ package me.weeravit.androidnewssample.manager;
 
 import java.util.List;
 
-import me.weeravit.androidnewssample.news.News;
+import me.weeravit.androidnewssample.module.news.News;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
