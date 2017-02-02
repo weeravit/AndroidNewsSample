@@ -1,6 +1,8 @@
 package me.weeravit.androidnewssample.module.news;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,7 +39,7 @@ public class NewsActivity extends AppCompatActivity implements NewsContract.View
 
     private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mAdapter = new NewsAdapter(new ArrayList<News>(), newsOnClickListener);
+        mAdapter = new NewsAdapter(new ArrayList<News>(), mListener);
 
         mBinding.recyclerView.setLayoutManager(layoutManager);
         mBinding.recyclerView.setAdapter(mAdapter);
@@ -61,7 +63,8 @@ public class NewsActivity extends AppCompatActivity implements NewsContract.View
 
     @Override
     public void showNews(News news) {
-        // TODO: 2/1/2017 AD - Open WebView with link
+        Intent externalBrowser = new Intent(Intent.ACTION_VIEW, Uri.parse(news.getLink()));
+        startActivity(externalBrowser);
     }
 
     @Override
@@ -69,15 +72,15 @@ public class NewsActivity extends AppCompatActivity implements NewsContract.View
 
     }
 
-    NewsOnClickListener newsOnClickListener = new NewsOnClickListener() {
+    private Listener mListener = new Listener() {
         @Override
-        public void onClick(News news) {
+        public void onNewsClick(News news) {
             mPresenter.openNews(news);
         }
     };
 
-    public interface NewsOnClickListener {
-        void onClick(News news);
+    public interface Listener {
+        void onNewsClick(News news);
     }
 
 }

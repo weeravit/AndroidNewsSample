@@ -19,11 +19,11 @@ import me.weeravit.androidnewssample.util.CustomViewHolder;
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<News> mNewsList;
-    private NewsActivity.NewsOnClickListener mNewsOnClickListener;
+    private NewsActivity.Listener mListener;
 
-    public NewsAdapter(List<News> newsList, NewsActivity.NewsOnClickListener newsOnClickListener) {
+    public NewsAdapter(List<News> newsList, NewsActivity.Listener listener) {
         mNewsList = newsList;
-        mNewsOnClickListener = newsOnClickListener;
+        mListener = listener;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         CustomViewHolder viewHolder = (CustomViewHolder) holder;
         ItemNewsBinding binding = (ItemNewsBinding) viewHolder.getViewDataBinding();
         binding.setItem(mNewsList.get(position));
-        binding.setListener(mNewsOnClickListener);
+        binding.setListener(mListener);
     }
 
     @Override
