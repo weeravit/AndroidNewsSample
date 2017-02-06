@@ -20,6 +20,13 @@ public class News {
     @SerializedName("link")
     private String link;
 
+    public News(int id, String title, String imageUrl, String link) {
+        this.id = id;
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.link = link;
+    }
+
     public int getId() {
         return id;
     }

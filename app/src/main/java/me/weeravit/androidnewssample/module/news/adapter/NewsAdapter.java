@@ -9,7 +9,6 @@ import java.util.List;
 
 import me.weeravit.androidnewssample.databinding.ItemNewsBinding;
 import me.weeravit.androidnewssample.module.news.News;
-import me.weeravit.androidnewssample.module.news.NewsActivity;
 import me.weeravit.androidnewssample.util.CustomViewHolder;
 
 /**
@@ -19,9 +18,9 @@ import me.weeravit.androidnewssample.util.CustomViewHolder;
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<News> mNewsList;
-    private NewsActivity.Listener mListener;
+    private Listener mListener;
 
-    public NewsAdapter(List<News> newsList, NewsActivity.Listener listener) {
+    public NewsAdapter(List<News> newsList, Listener listener) {
         mNewsList = newsList;
         mListener = listener;
     }
@@ -50,6 +49,10 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         NewsDiffCallback diffCallback = new NewsDiffCallback(mNewsList, newsList);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         diffResult.dispatchUpdatesTo(this);
+    }
+
+    public interface Listener {
+        void onNewsClick(News news);
     }
 
 }

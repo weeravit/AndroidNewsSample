@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +17,24 @@ import me.weeravit.androidnewssample.R;
 import me.weeravit.androidnewssample.databinding.ActivityNewsBinding;
 import me.weeravit.androidnewssample.module.news.adapter.NewsAdapter;
 
-public class NewsActivity extends AppCompatActivity implements NewsContract.View {
+public class NewsActivity extends AppCompatActivity implements
+        NewsContract.View,
+        NewsAdapter.Listener {
 
+    public static final String PAGE_EXTRA = "page";
+    public static final String LAYOUT_MANAGER_EXTRA = "layout_manager";
+
+    private int mPage;
     private NewsAdapter mAdapter;
     private NewsPresenter mPresenter;
     private ActivityNewsBinding mBinding;
+    private LinearLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupInstance(savedInstanceState);
         setupView();
-        setupInstance();
         setupRecyclerView();
     }
 
@@ -33,28 +42,32 @@ public class NewsActivity extends AppCompatActivity implements NewsContract.View
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_news);
     }
 
-    private void setupInstance() {
+    private void setupInstance(Bundle savedInstanceState) {
+        mPage = savedInstanceState.getInt(PAGE_EXTRA, 1);
         mPresenter = new NewsPresenter(this, Injection.provideNewsRepository());
     }
 
     private void setupRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mAdapter = new NewsAdapter(new ArrayList<News>(), mListener);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new NewsAdapter(new ArrayList<News>(), this);
 
-        mBinding.recyclerView.setLayoutManager(layoutManager);
+        mBinding.recyclerView.setLayoutManager(mLayoutManager);
         mBinding.recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.loadNews(1);
+        mPresenter.loadNews(mPage);
     }
 
     @Override
-    public void showLoading(boolean enable) {
-
+    public void onNewsClick(News news) {
+        mPresenter.openNews(news);
     }
+
+    @Override
+    public void showLoading(boolean enable) { }
 
     @Override
     public void showNewsList(List<News> newsList) {
@@ -69,18 +82,28 @@ public class NewsActivity extends AppCompatActivity implements NewsContract.View
 
     @Override
     public void showError(String message) {
-
+        Snackbar.make(mBinding.getRoot(), message, Snackbar.LENGTH_LONG)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mPresenter.loadNews(mPage);
+                    }
+                })
+                .show();
     }
 
-    private Listener mListener = new Listener() {
-        @Override
-        public void onNewsClick(News news) {
-            mPresenter.openNews(news);
-        }
-    };
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(PAGE_EXTRA, mPage);
+        outState.putParcelable(LAYOUT_MANAGER_EXTRA, mLayoutManager.onSaveInstanceState());
+    }
 
-    public interface Listener {
-        void onNewsClick(News news);
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mPage = savedInstanceState.getInt(PAGE_EXTRA, 1);
+        savedInstanceState.getParcelable(LAYOUT_MANAGER_EXTRA);
     }
 
 }
