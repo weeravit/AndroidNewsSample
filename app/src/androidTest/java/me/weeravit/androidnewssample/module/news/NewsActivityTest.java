@@ -32,6 +32,10 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class NewsActivityTest {
 
+    /*
+        This test is support mock variant only
+      */
+
     @Rule
     public ActivityTestRule<NewsActivity> mActivityTestRule = new ActivityTestRule<>(NewsActivity.class);
 
