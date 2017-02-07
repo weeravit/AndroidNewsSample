@@ -22,6 +22,13 @@ public class NewsRepositoryImpl implements NewsRepository {
                     public void onResponse(Call<List<News>> call, Response<List<News>> response) {
                         if (response.isSuccessful()) {
                             callback.onSuccess(response.body());
+                        } else {
+                            try {
+                                String message = response.errorBody().string();
+                                throw new Exception(message);
+                            } catch (Exception e) {
+                                onFailure(call, e);
+                            }
                         }
                     }
 

@@ -46,9 +46,11 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public void updateList(List<News> newsList) {
-        NewsDiffCallback diffCallback = new NewsDiffCallback(mNewsList, newsList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-        diffResult.dispatchUpdatesTo(this);
+//        NewsDiffCallback diffCallback = new NewsDiffCallback(mNewsList, newsList);
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+//        diffResult.dispatchUpdatesTo(this);
+        mNewsList.addAll(newsList);
+        notifyDataSetChanged();
     }
 
     public interface Listener {

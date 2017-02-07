@@ -33,9 +33,12 @@ public class NewsActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setupInstance(savedInstanceState);
         setupView();
         setupRecyclerView();
+
+        mPresenter.loadNews(mPage);
     }
 
     private void setupView() {
@@ -43,7 +46,12 @@ public class NewsActivity extends AppCompatActivity implements
     }
 
     private void setupInstance(Bundle savedInstanceState) {
-        mPage = savedInstanceState.getInt(PAGE_EXTRA, 1);
+        if (savedInstanceState != null) {
+            mPage = savedInstanceState.getInt(PAGE_EXTRA, 1);
+        } else {
+            mPage = 1;
+        }
+
         mPresenter = new NewsPresenter(this, Injection.provideNewsRepository());
     }
 
@@ -56,18 +64,13 @@ public class NewsActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mPresenter.loadNews(mPage);
-    }
-
-    @Override
     public void onNewsClick(News news) {
         mPresenter.openNews(news);
     }
 
     @Override
-    public void showLoading(boolean enable) { }
+    public void showLoading(boolean enable) {
+    }
 
     @Override
     public void showNewsList(List<News> newsList) {
@@ -92,18 +95,18 @@ public class NewsActivity extends AppCompatActivity implements
                 .show();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(PAGE_EXTRA, mPage);
-        outState.putParcelable(LAYOUT_MANAGER_EXTRA, mLayoutManager.onSaveInstanceState());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mPage = savedInstanceState.getInt(PAGE_EXTRA, 1);
-        savedInstanceState.getParcelable(LAYOUT_MANAGER_EXTRA);
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putInt(PAGE_EXTRA, mPage);
+//        outState.putParcelable(LAYOUT_MANAGER_EXTRA, mLayoutManager.onSaveInstanceState());
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        mPage = savedInstanceState.getInt(PAGE_EXTRA, 1);
+//        savedInstanceState.getParcelable(LAYOUT_MANAGER_EXTRA);
+//    }
 
 }

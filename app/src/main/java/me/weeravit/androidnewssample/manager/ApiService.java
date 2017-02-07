@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 
 public interface ApiService {
 
-    @GET("page{page}.json")
+    @GET("page/{page}.json")
     Call<List<News>> getNews(@Path("page") int page);
 
 }
